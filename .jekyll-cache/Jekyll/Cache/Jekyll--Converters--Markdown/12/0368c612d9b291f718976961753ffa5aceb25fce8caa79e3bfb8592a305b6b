@@ -1,0 +1,127 @@
+I"�<ul>
+  <li>간단한 클래스 정의</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">cost</span><span class="o">;</span>
+	
+	<span class="kd">public</span> <span class="nf">Car</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">(</span><span class="s">"AAA"</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+		<span class="c1">//this 로 객체 내의 생성자를 부르는 것이 가능</span>
+	<span class="o">}</span>
+	
+	<span class="kd">public</span> <span class="nf">Car</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">int</span> <span class="n">cost</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">cost</span> <span class="o">=</span> <span class="n">cost</span><span class="o">;</span>
+		
+		<span class="k">if</span><span class="o">(</span><span class="n">cost</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span>
+			<span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"cost must be &gt;0"</span><span class="o">);</span>
+		<span class="c1">//예외처리</span>
+	<span class="o">}</span>
+	
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setName</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">toString</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">return</span> <span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"name:%s//cost:%d"</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">cost</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>Composition</p>
+
+    <ul>
+      <li>has-a relation으로 객체가 객체를 가지고 있는 경우</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210505015524400.png" alt="image-20210505015524400" /></p>
+  </li>
+  <li>
+    <p>Garbage Collection</p>
+
+    <p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210505015805874.png" alt="image-20210505015805874" /></p>
+
+    <ul>
+      <li>처음 생성 된 것들은 eden으로 간다.</li>
+      <li>살아있는 것들은 Survivor, 더 오래되면 Tenured로 옮겨진다.</li>
+      <li>finalize를 쓰면 객체가 사라지지만, GCC에게 맡기는게 바람직하다.(?)</li>
+    </ul>
+  </li>
+  <li>static
+    <ul>
+      <li>오로지 클래스의 이름으로만 접근 가능하다.</li>
+      <li>String은 immutable(변경 불가능)하다.</li>
+    </ul>
+  </li>
+  <li>final
+    <ul>
+      <li>값을 바꿀 수 없다.</li>
+    </ul>
+  </li>
+  <li>enum
+    <ul>
+      <li>기본적으로 final/static이다. values()를 제공한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">Animal</span> <span class="o">{</span>
+	
+	<span class="no">BEAR</span><span class="o">(</span><span class="s">"Andrew"</span><span class="o">,</span> <span class="mi">4</span><span class="o">),</span>
+	<span class="no">PIG</span><span class="o">(</span><span class="s">"Seo"</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
+	
+	<span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
+	
+	
+	<span class="c1">//enum 생성자</span>
+	<span class="nc">Animal</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">int</span> <span class="n">age</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">age</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="c1">//접근자</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getAge</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">return</span> <span class="n">age</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Hello</span> <span class="o">{</span>	
+
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">for</span><span class="o">(</span><span class="nc">Animal</span> <span class="n">animal</span> <span class="o">:</span> <span class="nc">Animal</span><span class="o">.</span><span class="na">values</span><span class="o">())</span>
+			<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"%d//%s"</span><span class="o">,</span> <span class="n">animal</span><span class="o">.</span><span class="na">getAge</span><span class="o">(),</span> <span class="n">animal</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+		
+		<span class="k">for</span><span class="o">(</span><span class="nc">Animal</span> <span class="n">animal</span> <span class="o">:</span> <span class="nc">EnumSet</span><span class="o">.</span><span class="na">range</span><span class="o">(</span><span class="nc">Animal</span><span class="o">.</span><span class="na">BEAR</span><span class="o">,</span> <span class="nc">Animal</span><span class="o">.</span><span class="na">BEAR</span><span class="o">))</span>
+		<span class="o">{</span>
+			<span class="c1">//범위를 지정해서 그 안의 값까지만 반환받음.</span>
+		<span class="o">}</span>
+			
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+:ET

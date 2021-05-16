@@ -1,0 +1,49 @@
+I"6<h1 id="1-friend">1. Friend</h1>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">A</span>
+<span class="p">{</span>
+<span class="k">private</span> <span class="o">:</span>
+	<span class="kt">int</span> <span class="n">atr</span><span class="p">;</span>
+	<span class="k">friend</span> <span class="k">class</span> <span class="nc">B</span><span class="p">;</span>
+<span class="p">};</span>
+
+
+<span class="k">class</span> <span class="nc">B</span>
+<span class="p">{</span>
+<span class="nl">public:</span>
+	<span class="kt">void</span> <span class="n">set_A</span><span class="p">(</span><span class="n">A</span> <span class="n">a</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">a</span><span class="p">.</span><span class="n">atr</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<ul>
+  <li>friend로 선언된 다른 클래스는 해당 클래스의 어트리뷰트에 접근할 수  있다.</li>
+</ul>
+
+<h1 id="2-staticmutable">2. static/mutable</h1>
+
+<ul>
+  <li>전역변수: 선언된 파일 내에서만 참조가 가능하다.</li>
+  <li>함수내부: 한번만 초기화되며, 지역을 빠져나와도 소멸하지 않는다.</li>
+  <li>멤버변수
+    <ul>
+      <li>모든 객체가 공유하는 구조를 지닌다.</li>
+      <li>생성자에서 초기화 해서는 안된다.</li>
+    </ul>
+  </li>
+  <li>static함수
+    <ul>
+      <li>선언된 클래스의 모든 객체가 공유한다.</li>
+      <li>public으로 선언할 경우, 클래스의 이름으로 접근이 가능하다.</li>
+      <li>static 함수 내에서는 static 멤버변수와 함수만 호출이 가능하다.</li>
+    </ul>
+  </li>
+  <li>mutable
+    <ul>
+      <li>const 멤버 함수는 내부에서 멤버 변수의 값을 변경하는 것이 불가능한데, mutable로 선언 된 멤버 변수는 이들 내부에서도 값 변경이 가능하다.</li>
+    </ul>
+  </li>
+</ul>
+:ET

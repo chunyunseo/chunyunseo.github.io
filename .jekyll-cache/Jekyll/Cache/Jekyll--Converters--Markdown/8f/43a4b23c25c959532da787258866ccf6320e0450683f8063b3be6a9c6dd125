@@ -1,0 +1,81 @@
+I"�<h1 id="1-가이드라인">1. 가이드라인</h1>
+
+<ol>
+  <li>
+    <p>스키마를 설명하기 쉽게만들어라. 다수의 entity type이나 relationship type들을 조합해서 하나로 만들지 마라.</p>
+  </li>
+  <li>
+    <p>update anomaly<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>가 나타나지 않도록 디자인하여라.</p>
+  </li>
+  <li>
+    <p>NULL value가 많이 나오는 것을 피하라.</p>
+  </li>
+  <li>
+    <p>spurious tuple을 피해라.(relation을 적당히 관련된 것 끼리 하지 않으면, join 결과로 이상한게 나올 수 있음. 아래 예시는 Plocation이 유니크한 키가 아니기 때문에, join 결과가 이상할 것임.)</p>
+  </li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210511023709092.png" alt="image-20210511023709092" /></p>
+
+<h1 id="2-functional-dependencies">2. Functional Dependencies</h1>
+
+<ul>
+  <li>prime attribute: candiate key의 멤버.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210511024541695.png" alt="image-20210511024541695" /></p>
+
+<p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210511024553744.png" alt="image-20210511024553744" /></p>
+
+<ol>
+  <li>
+    <p>First Normal Form</p>
+
+    <ul>
+      <li>
+        <p>attribute가 쪼개질 수 없음.(nested relation을 허용하지 않음)</p>
+      </li>
+      <li>위 그림의 B를 C로 unnest하면 First Normal Form을 충족함.</li>
+      <li>위 C도 중복 정보가 많아서, 아예 지역 정보를 따로 추가적인 테이블로 빼는 것이 바람직함.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Second Normal Form(2NF)</p>
+
+    <ul>
+      <li>
+        <p>1NF의 성질을 만족하면서</p>
+      </li>
+      <li>
+        <p>non prime attribute가 어떤 key에 완전 함수 종속되어야 한다.(not partially dependent)</p>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210511025748276.png" alt="image-20210511025748276" /></p>
+
+    <ul>
+      <li>위 그림에서 Hours는 2개라서 파셜하지 않음.</li>
+      <li>위 그림에서 Ename은 non prime attribute인데, FD2에서 파셜하기에 2NF가 되지 못함.</li>
+      <li>Primary key가 두 개 이상의 attribute일 때, 2NF가 충족되는지 따져보면 됨.(하나이면 따져볼 필요가 없다.)</li>
+    </ul>
+  </li>
+  <li>
+    <p>Third Normal Form(3NF)/BCNF</p>
+    <ul>
+      <li>X -&gt; A에서 X가 superkey이거나 A가 prime attribute라면 3NF 성립.</li>
+      <li>BCNF면 X가 superkey이면 성립.</li>
+      <li>아래 그림에서 LOTS1을 LOTS1A, LOTS1B로 나누면 3NF가 성립함.</li>
+    </ul>
+  </li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210511030704011.png" alt="image-20210511030704011" /></p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>튜플의 속성값을 갱신하면서 정보에 모순이 생기는 현상 <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+:ET

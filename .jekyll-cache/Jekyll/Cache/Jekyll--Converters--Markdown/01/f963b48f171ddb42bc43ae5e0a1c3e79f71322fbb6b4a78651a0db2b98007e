@@ -1,0 +1,168 @@
+I"*<h1 id="schema--catalog">Schema &amp; Catalog</h1>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">SCHEMA</span> <span class="n">COMPANY</span> <span class="k">AUTHORIZATION</span> <span class="nv">"Chun"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>create schema로 데이터베이스를 만들 수 있다.</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">COMPANY</span><span class="p">.</span><span class="n">EMPLOYEE</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">EMPLOYEE</span><span class="p">;</span>
+</code></pre></div></div>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">EMPLOYEE</span>
+<span class="err">{</span>
+	<span class="n">Fname</span>	<span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>	<span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+	<span class="n">Minit</span>	<span class="nb">CHAR</span><span class="p">,</span>
+	<span class="n">Salary</span>	<span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+	<span class="p">...</span>
+	<span class="n">PRIMARY_KEY</span><span class="p">(</span><span class="n">Ssn</span><span class="p">,</span> <span class="n">Fname</span><span class="p">)</span>
+<span class="err">}</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">DEPARTMENT</span>
+<span class="err">{</span>
+	<span class="p">...</span>
+	<span class="k">UNIQUE</span><span class="p">(</span><span class="n">Dname</span><span class="p">),</span>
+	<span class="n">FOREIGN_KEY</span><span class="p">(</span><span class="n">Mgr_ssn</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">EMPLOYEE</span><span class="p">(</span><span class="n">Ssn</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">SET</span> <span class="k">DEFAULT</span> <span class="k">ON</span> <span class="k">UPDATE</span> <span class="k">CASCADE</span>
+<span class="err">}</span><span class="p">;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>create table로 테이블을 만들 수 있다. 내부적으로는 파일이 생성된다.</p>
+  </li>
+  <li>VARCHAR(n): 최대 n자리까지 된다.</li>
+  <li>DECIMAL(n, m): 전체 자리는 n, 소수점 이하 자리수는 m</li>
+  <li>UNIQUE: 유니크한 값을 가진다. Canditate</li>
+  <li>
+    <p>FOREIGN KEY: violation이 발생할 때 동작을 수행한다.(Default: reject)</p>
+  </li>
+  <li>Domain: 가독성을 위해서 사용</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">DOMAIN</span> <span class="n">SSN_TYPE</span> <span class="k">AS</span> <span class="nb">CHAR</span><span class="p">(</span><span class="mi">9</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h1 id="selectfromwhere">SELECT/FROM/WHERE</h1>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">Attr1</span><span class="p">,</span> <span class="n">Attr2</span>
+<span class="k">FROM</span> <span class="n">MYTABLE</span>
+<span class="k">WHERE</span> <span class="n">Attr3</span><span class="o">=</span><span class="nv">"some val"</span> <span class="k">AND</span> <span class="n">Attr4</span><span class="o">=</span><span class="nv">"A"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Join: 두 개 이상의 테이블을 연산할 때는 항상 생각해야한다.(Dnumber=Dno;).</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">Fname</span><span class="p">,</span> <span class="n">Lname</span>
+<span class="k">FROM</span> <span class="n">EMPLOYEE</span><span class="p">,</span> <span class="n">DEPARTMENT</span>
+<span class="k">WHERE</span> <span class="n">Dname</span><span class="o">=</span><span class="nv">"Develop"</span> <span class="k">AND</span> <span class="n">Dumber</span><span class="o">=</span><span class="n">Dno</span><span class="p">;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Name간의 모호성이 있는 경우: dot(.)을 써라.</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">EMPLOYEE</span><span class="p">.</span><span class="n">Fname</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Aliasing&amp;Renaming</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">E</span><span class="p">.</span><span class="n">Fname</span><span class="p">,</span> <span class="n">S</span><span class="p">.</span><span class="n">Fname</span>
+<span class="k">FROM</span> <span class="n">EMPLOYEE</span> <span class="k">AS</span> <span class="n">E</span><span class="p">,</span> <span class="n">EMPLOYEE</span> <span class="k">AS</span> <span class="n">S</span>
+<span class="k">WHERE</span> <span class="n">E</span><span class="p">.</span><span class="n">Super_ssn</span> <span class="o">=</span> <span class="n">S</span><span class="p">.</span><span class="n">ssn</span>
+</code></pre></div></div>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">EMPLOYEE</span> <span class="k">AS</span> <span class="n">E</span><span class="p">(</span><span class="n">Fn</span><span class="p">,</span> <span class="n">Mi</span><span class="p">,</span> <span class="n">Ln</span><span class="p">,</span> <span class="n">Ssn</span><span class="p">,</span> <span class="p">...);</span> 
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>WHERE문이 없으면 가능한 콤비네이션이 모조리 뽑힌다.</p>
+  </li>
+  <li>
+    <p>Asterisk: 전부다 출력하고 싶을 때</p>
+  </li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span>
+</code></pre></div></div>
+
+<ul>
+  <li>DISTINCT: sql이 중복된 원소들을 제거하게 한다.(&lt;-&gt; ALL)</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="k">DISTINCT</span> <span class="n">item</span>
+</code></pre></div></div>
+
+<ul>
+  <li>UNION/EXCEPT/INTERSECT</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">SELECT</span> <span class="p">...</span>
+<span class="k">FROM</span><span class="p">...</span>
+<span class="k">WHERE</span> <span class="p">...</span>
+<span class="p">)</span>
+<span class="k">UNION</span>
+<span class="p">(</span>
+<span class="p">...)</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210506231523585.png" alt="image-20210506231523585" /></p>
+
+<ul>
+  <li>LIKE: 패턴매칭에 사용한다.</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">WHERE</span> <span class="n">Address</span> <span class="k">LIKE</span> <span class="s1">'%Seoul%'</span><span class="p">;</span>
+<span class="k">WHERE</span> <span class="n">Ssn</span> <span class="k">LIKE</span> <span class="s1">'__1___'</span>
+</code></pre></div></div>
+
+<ul>
+  <li>연산자 사용 예시</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">E</span><span class="p">.</span><span class="n">Fname</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">E</span><span class="p">.</span><span class="n">Salary</span> <span class="k">As</span> <span class="n">Increased_salary</span>
+</code></pre></div></div>
+
+<ul>
+  <li>ORDER BY</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">E</span><span class="p">.</span><span class="n">Fname</span> <span class="k">ASC</span><span class="p">,</span> <span class="n">E</span><span class="p">.</span><span class="n">Lname</span> <span class="k">DESC</span>
+</code></pre></div></div>
+
+<hr />
+
+<ul>
+  <li>INSERT: 그냥 삽입할 수도 있고, 질의의 결과를 삽입할 수도 있다.</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">EMPLOYEE</span>
+<span class="k">VALUES</span> <span class="p">(</span><span class="s1">''</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="p">....);</span>
+</code></pre></div></div>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">EMPLOYEE</span><span class="p">(...,</span> <span class="p">...,</span> <span class="p">...)</span>
+<span class="k">SELECT</span> <span class="p">....</span>
+</code></pre></div></div>
+
+<ul>
+  <li>DELETE: WHERE을 생략하면 모든 튜플이 지워질 수 있다.</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">EMPLOYEE</span>
+<span class="k">WHERE</span> <span class="n">Lname</span><span class="o">=</span><span class="s1">'abc'</span>
+</code></pre></div></div>
+
+<ul>
+  <li>UPDATE: SET 구문을 이용해서 바꿀 수 있다.</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">UPDATE</span> <span class="n">EMPLOYEE</span>
+<span class="k">SET</span> <span class="n">Salary</span> <span class="o">=</span> <span class="n">Salary</span><span class="o">*</span><span class="mi">2</span>
+<span class="k">WHERE</span> <span class="n">Fname</span> <span class="o">=</span> <span class="s1">'abc'</span>
+</code></pre></div></div>
+
+:ET

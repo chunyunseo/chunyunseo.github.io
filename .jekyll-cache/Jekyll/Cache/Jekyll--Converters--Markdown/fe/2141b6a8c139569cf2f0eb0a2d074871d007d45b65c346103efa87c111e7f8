@@ -1,0 +1,79 @@
+I"�<h1 id="어트리뷰트와-엔티티">어트리뷰트와 엔티티</h1>
+
+<p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210506204504321.png" alt="image-20210506204504321" /></p>
+
+<ul>
+  <li>어트리뷰트는 타원으로 표시된다.(Year, Model)</li>
+  <li>엔티티 타입은 직사각형으로 표시된다.(CAR)</li>
+  <li>멀티벨류들은 겹쳐진 타원으로 표시된다.(Color)
+    <ul>
+      <li>EX) Car는 {red, black}을 색으로 지니고 있음.</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="relationship">Relationship</h1>
+
+<p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210506212001440.png" alt="image-20210506212001440" /></p>
+
+<ul>
+  <li>N:1(Many-to-one): 직원은 하나의 부서에 속한다. 부서 입장에서는 직원이 여럿이다.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210506212151117.png" alt="image-20210506212151117" /></p>
+
+<ul>
+  <li>
+    <p>Relationship type은 다이아몬드로 표시된다. total participation은 더블라인으로, partial participation은 싱글라인으로 표시된다.</p>
+  </li>
+  <li>
+    <p>M:N(Many-to-many): 직원 하나가 여러 프로젝트에 속할수도 있고, 프로젝트 하나가 여러 직원을 가질수도 있다.</p>
+  </li>
+</ul>
+
+<h1 id="er-diagram">ER Diagram</h1>
+
+<p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210506212436454.png" alt="image-20210506212436454" /></p>
+
+<ul>
+  <li>
+    <p>weak entity: 키를 가지지 못하고, 다른 엔티티 타입에 의존하는 것. DEPENDENT에서 부양가족은 반드시 부양자(직원)이 존재해야한다.</p>
+  </li>
+  <li>
+    <p>WORKS_FOR 같은 1:N관계의 어트리뷰트는 N 사이드에 저장하는 것이 바람직하다.</p>
+  </li>
+</ul>
+
+<h1 id="relation">Relation</h1>
+
+<p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210506215812990.png" alt="image-20210506215812990" /></p>
+
+<ul>
+  <li>relation은 value의 table과 같다. 행의 집합이다.</li>
+  <li>각 행은 tuple이라고 부를 수 있다.</li>
+  <li>각 열은 attribute라고 부를 수 있다.</li>
+</ul>
+
+<hr />
+
+<ul>
+  <li>Key: row를 유니크하게 정의할 수 있는 것. (EX: 주민등록번호)</li>
+</ul>
+
+<hr />
+
+<ul>
+  <li>Key constraints: 키에 중복된 값이 존재해서는 안된다.</li>
+  <li>Entitiy integrity constraints: 키를 구성하는 것이 null값이 들어가서는 안된다.</li>
+  <li>Referntial Integrity constraints: 존재하지 않는 부서 등을 참조해서는 안됨.</li>
+  <li>Semantic Integrity Constraints: 주56시간 이상 일하는 데이터 등이 들어가서는 안되는 등. 어플리케이션 영역에서의 제한.</li>
+</ul>
+
+<hr />
+
+<ul>
+  <li>Superkey: 유니크하게 튜플을 명시할 수 있는 집합.</li>
+  <li>Key: 가장 작을 수 있는 Superkey</li>
+  <li>Primary key: candidate keys 중에 선택되어진 것.</li>
+</ul>
+:ET

@@ -1,0 +1,33 @@
+I"�<hr />
+
+<ol>
+  <li>
+    <p>Regular entity E에 대해 관계 R을 생성하는데, 모든 simple attribute를 표현한다. E의 키가 Composite(EX: First, Last name)이면 이 둘이 합쳐져서 primary key가 된다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210510230727039.png" alt="image-20210510230727039" /></p>
+  </li>
+  <li>
+    <p>Weak entity type W에 대해 그 entity의 소유자가 E라고 하면, R을 생성하는데 W의 모든 simple attribute를 포함한다. R의 primary key는 W의 partial key와 E의 primary key의 결합이다.</p>
+  </li>
+  <li>
+    <p>1:1 관계에서는 total participation의 primary key를 다른 쪽의 foreign key로 집어넣는다. total-partipation에 R의 simple attribute를 집어넣는다. 양쪽이 total participation이면 합치는 것이 가능하고, Cross-reference인 경우, 혹은 relationship relation approach의 경우 M:N 과 같이 접근 가능하다.</p>
+  </li>
+  <li>
+    <p>1:N 관계에서는 N part에 다른 쪽의 primary key를 foreign key로서 가져온다. N part에 attribute를 넣는다. relationship relation approach를 사용할 수도 있다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210510233207356.png" alt="image-20210510233207356" /></p>
+  </li>
+  <li>
+    <p>M:N 관계에서는 새로운 relation S를 새로 생성하고, 다른 entitiy type의 primary key를 foreign key로서 가져온다.</p>
+  </li>
+  <li>
+    <p>Multivalued attribute의 경우, 새로운 relation R을 만들고, R의 primary key는 multivalue attribute A와 primary key K의 결합이 된다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210510233504453.png" alt="image-20210510233504453" /></p>
+  </li>
+  <li>
+    <p>N-ary relationship type의 경우, 새로운 S를 만들고, 모든 primary key를 foreign key로서 가진다.</p>
+  </li>
+</ol>
+
+:ET

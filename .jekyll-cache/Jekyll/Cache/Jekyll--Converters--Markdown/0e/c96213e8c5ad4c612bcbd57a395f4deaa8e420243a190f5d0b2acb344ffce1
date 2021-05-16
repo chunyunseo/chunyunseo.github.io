@@ -1,0 +1,59 @@
+I"H<h1 id="1-static-hashing">1. Static Hashing</h1>
+
+<p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210516145818564.png" alt="image-20210516145818564" /></p>
+
+<ul>
+  <li>사이즈가 고정되어 있음.</li>
+  <li>검색, 삽입, 삭제 최악의 시간 복잡도는 O(bs), 기대값은 O(1)</li>
+</ul>
+
+<h1 id="2-용어">2. 용어</h1>
+
+<ul>
+  <li>버킷 오버플로우/Collision(해쉬 충돌): 버킷의 크기가 1인데, 서로 다른 2개의 키가 같은 해시값을 가지면, 버킷 초과가 나는데 이를 버킷 오버플로우라고 부름.</li>
+</ul>
+
+<h1 id="3-해싱-함수">3. 해싱 함수</h1>
+
+<ul>
+  <li>Mid-Square: 테이블 사이즈만큼의 특정 비트를 뽑아오는 방식</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210516154913810.png" alt="image-20210516154913810" /></p>
+
+<ul>
+  <li>Division: M(보통 prime number)으로 mod하는 방식.</li>
+  <li>Folding
+ <img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210516155038561.png" alt="image-20210516155038561" /></li>
+</ul>
+
+<h1 id="4-여러가지-핸들링">4. 여러가지 핸들링</h1>
+
+<ul>
+  <li>
+    <p>Overflow Handling</p>
+
+    <ul>
+      <li>
+        <p>Linear Open Addressing: 가장 가까운 채워지지 않은 bucket을 찾아서 돌아가는 방식. Cluster가 발생해서 성능에 악영향을 줄수도 있다.</p>
+      </li>
+      <li>
+        <p>Random Probing: 고정된 랜덤 넘버만큼 점프해서 비어있는 bucket을 찾는 방식.</p>
+      </li>
+      <li>
+        <p>Quadratic Probing: 제곱으로 점프해서 찾는 방식.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Chaining: 링크드 리스트를 각 버킷에다가 사용함. 메모리가 더 필요할 수 있다.</p>
+  </li>
+  <li>Deletion: 삭제 플래그를 따로 만들어서 버킷이 비어있는지 확인할 수 있도록 만든다.</li>
+  <li>Dynamic Hashing
+    <ul>
+      <li>버킷이 꽉 차면 디렉터리를 기반으로 버켓을 링크시켜서 확장함.</li>
+    </ul>
+  </li>
+</ul>
+
+:ET
