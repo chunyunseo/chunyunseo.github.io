@@ -1,0 +1,158 @@
+I"�&<h1 id="1-minimum-cost-spanning-trees">1. Minimum Cost Spanning Trees</h1>
+
+<ul>
+  <li>edge가 vertex보다 하나 더 쓰이는 것.</li>
+  <li>
+    <p>가장 weight를 적게 먹는 것.</p>
+  </li>
+  <li>Kruskal Algorithm
+    <ul>
+      <li>greedy한 방법.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>T = {}; //처음에 T는 텅 비어있음.
+while((T가 n-1개보다 적은 edges를 가질 때) &amp;&amp; (E가 비어있지 않을 때))
+{
+    E에서 least cost edge (v, w)를 고른다;
+    //힙을 사용하면 된다.
+    
+    E에서 (v, w)를 지운다;
+    
+    //디스조인트 셋을 사용하면 된다.
+    if(((v, w)가 T에서 cycle을 만들지 않으면))
+        T에 (v,w)를 넣는다;
+}
+
+if(T가 n-1개보다 적은 edges를 가지면)
+    printf("스패닝 트리가 존재하지 않음\n");
+
+
+</code></pre></div></div>
+
+<ul>
+  <li>Prim Algorithm</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>T = {};
+TV = {0};
+while(T가 n-1개보다 적은 edge를 가지고 있을 때)
+{
+    TV에 속하는 u와 TV에 속하지 않는 v에 대해서, least cost edge (u, v)를 고른다;
+    if(그러한 edge가 없으면) break;
+    TV에 v를 추가한다;
+    T에 (u, v)를 추가한다.
+}
+
+if(T가 n-1보다 적은 edges를 가지면)
+    printf("스패닝 트리가 존재하지 않음.\n");
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>Sollin Algorithm</p>
+
+    <ol>
+      <li>
+        <p>edge가 없는 forest로 시작한다.(모든 vertex가 각각 tree임)</p>
+      </li>
+      <li>
+        <p>각 스테이지에서 T에 포함할 edge를 고른다.</p>
+
+        <p>1) 다른 component와 연결되는 least cost edge</p>
+
+        <p>2) 중복 선택은 제거된다.</p>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210515013514518.png" alt="image-20210515013514518" /></p>
+
+<p>위 그림에서 stage 1에서는 분홍색 선들이 선택된다. 그 다음 스테이지에서는 초록색 선들이 선택된다.</p>
+
+<h1 id="2-shortest-path">2. Shortest path</h1>
+
+<ul>
+  <li>다익스트라 알고리즘</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">dijkstra</span><span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">,</span> <span class="kt">int</span> <span class="n">cost</span><span class="p">[][</span><span class="n">MAX_VERTICES</span><span class="p">],</span> <span class="kt">int</span> <span class="n">distance</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">short</span> <span class="kt">int</span> <span class="n">found</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">found</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">;</span>
+        <span class="n">distance</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">cost</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+    
+    <span class="n">found</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">;</span>
+    <span class="n">distance</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="c1">//초기화 세팅. v는 시작 정점임.</span>
+    
+    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">choose</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">found</span><span class="p">);</span>
+        <span class="c1">//해당 vertex와 연결된 정점중에 가장작은 것을 찾음.</span>
+        
+        <span class="n">found</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="n">w</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">w</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">w</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">found</span><span class="p">[</span><span class="n">w</span><span class="p">])</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">distance</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">+</span> <span class="n">cost</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">w</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">distance</span><span class="p">[</span><span class="n">w</span><span class="p">])</span>
+                    <span class="n">distance</span><span class="p">[</span><span class="n">w</span><span class="p">]</span> <span class="o">=</span> <span class="n">distance</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">+</span> <span class="n">cost</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">w</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">choose</span><span class="p">(</span><span class="kt">int</span> <span class="n">distance</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">found</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="c1">//가장 작은 정점을 찾는 함수.</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">min</span><span class="p">,</span> <span class="n">minpos</span><span class="p">;</span>
+    <span class="n">min</span> <span class="o">=</span> <span class="n">INF</span><span class="p">;</span>
+    <span class="n">minpos</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">distance</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">min</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">found</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="p">{</span>
+            <span class="n">min</span> <span class="o">=</span> <span class="n">distance</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="n">minpos</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+    <span class="k">return</span> <span class="n">minpos</span><span class="p">;</span>
+    
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>벨만포드 알고리즘: Negative Edge가 있을 때 다익스트라 대신 사용.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void bellman_ford(int n, int v)
+{
+    for(int i =0; i&lt;n; i++)
+        dist[i] = length[v][i];
+    //초기화
+    
+    for(int k=1; k&lt;=n-1; k++)
+    {
+        for(u!=v이면서 최소한 하나의 incoming edge를 가지는 각각의 u에 대해서)
+        {
+            for(각 엣지 &lt;i, u&gt;에 대해서)
+            {
+                if(dist[u] &gt; dist[i] + length[i][u])
+                    dist[u] = dist[i] + length[i][u];
+            }
+		}
+    }
+    
+    for(E의 각 edge(u,w)에 대해서)
+        if(dist[w] &gt; dist[u] + length[u][w]) return FALSE;
+    //negative cycle 감지 부분
+    
+}
+</code></pre></div></div>
+
+:ET

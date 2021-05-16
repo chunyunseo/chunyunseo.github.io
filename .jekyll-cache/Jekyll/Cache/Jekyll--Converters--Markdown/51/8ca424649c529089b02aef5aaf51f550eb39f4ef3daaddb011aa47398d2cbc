@@ -1,0 +1,111 @@
+I"�#<h1 id="1-lambdas">1. Lambdas</h1>
+
+<ul>
+  <li>함수형 프로그래밍
+    <ul>
+      <li>내부 상태가 없으므로, 같은 입력에 대해서 같은 출력이 보장됨. 동시성에 용이.</li>
+      <li>Lazy-Evaluation: 결과 값이 필요한 순간에 계산함.</li>
+    </ul>
+  </li>
+  <li>Anonymous Inner Class
+    <ul>
+      <li>인스턴스나 추상 클래스 단 하나를 재정의해서 쓸 수 있다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Draw Interface를 이용한 익명 내부 클래스</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Hello</span> <span class="o">{</span>	
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="nc">Draw</span> <span class="n">myAnom</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Draw</span><span class="o">()</span> <span class="o">{</span>
+
+			<span class="nd">@Override</span>
+			<span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">()</span> <span class="o">{</span>
+				<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Drawing!"</span><span class="o">);</span>
+			<span class="o">}</span>
+			
+		<span class="o">};</span>
+		<span class="n">myAnom</span><span class="o">.</span><span class="na">draw</span><span class="o">();</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Lambda
+    <ul>
+      <li>(int x, int y) -&gt; {return x+y;}</li>
+      <li>(x, y) -&gt; {return x+y;}</li>
+      <li>x -&gt; System.out.println(x)</li>
+      <li>() -&gt; System.out.println(“Hello”)</li>
+    </ul>
+  </li>
+  <li>
+    <p>Functional Interfaces(java.util.function)</p>
+
+    <ul>
+      <li>
+        <p>Function&lt;T, R&gt;: T를 받아서 R타입을 돌려주는 interface</p>
+      </li>
+      <li>Comsumer <T.>: T타입을 인자로 받고 리턴이 없음.</T.></li>
+      <li>Predicate<T.> : T타입 인자를 받고 boolean을 리턴.</T.></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//간단한 Predicate&lt;T&gt; 사용 예시, 짝수 판별</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Hello</span> <span class="o">{</span>	
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+		
+		<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+		<span class="o">{</span>
+			<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+		<span class="o">}</span>
+		
+		<span class="nc">Predicate</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span><span class="k">return</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="o">;};</span>
+		
+		<span class="k">for</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">item</span> <span class="o">:</span> <span class="n">list</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">f</span><span class="o">.</span><span class="na">test</span><span class="o">(</span><span class="n">item</span><span class="o">));</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h1 id="2-streams">2. Streams</h1>
+
+<ul>
+  <li>Java.util.stream 을 통해서 사용할 수 있다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//간단한 사용 예시, 이 외에도 많다.</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Hello</span> <span class="o">{</span>	
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+		<span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span> <span class="o">=</span> <span class="o">{</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">9</span><span class="o">,</span> <span class="mi">10</span><span class="o">};</span>
+		
+		<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+		<span class="o">{</span>
+			<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+		<span class="o">}</span>
+		
+		<span class="nc">IntStream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">arr</span><span class="o">).</span>
+		<span class="n">forEach</span><span class="o">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">x</span><span class="o">));</span>
+		<span class="c1">//of로 스트림 형성, forEach로 수행</span>
+		
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">IntStream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">arr</span><span class="o">).</span><span class="na">sum</span><span class="o">());</span>
+		<span class="c1">//합계 구하기</span>
+		
+		<span class="nc">IntStream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">arr</span><span class="o">)</span>
+		<span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+		<span class="o">.</span><span class="na">sorted</span><span class="o">()</span>
+		<span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">x</span><span class="o">));</span>
+		<span class="c1">//짝수만 고르고 정렬해서 출력하기.</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+:ET

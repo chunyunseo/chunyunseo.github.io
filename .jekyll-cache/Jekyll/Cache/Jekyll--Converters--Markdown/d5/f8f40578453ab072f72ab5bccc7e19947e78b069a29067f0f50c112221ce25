@@ -1,0 +1,168 @@
+I"�5<h1 id="1-heap">1. HEAP</h1>
+
+<ul>
+  <li>max heap: 부모의 값이 자식보다 항상 큰 힙. 힙은 또한 무조건 CBT(Complete Binary Tree)여야만 한다.</li>
+  <li>heap의 삽입, 삭제 시간복잡도는 log(n)이다.(n은 노드의 전체 수)</li>
+  <li>트리가 언밸런스해지면 최악의 경우 O(n)이 나올수도 있다.</li>
+  <li>Insertion</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define MAX_ELEMENTS 100
+#define HEAP_FULL(n) (n == MAX_ELEMENTS-1)
+#define HEAP_EMPTY(n) (!n)
+</span><span class="kt">int</span> <span class="n">heap</span><span class="p">[</span><span class="n">MAX_ELEMENTS</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</code></pre></div></div>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">push</span><span class="p">(</span><span class="kt">int</span> <span class="n">item</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">HEAP_FULL</span><span class="p">(</span><span class="o">*</span><span class="n">n</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="n">exit</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="n">i</span> <span class="o">==</span> <span class="o">++</span><span class="p">(</span><span class="o">*</span><span class="n">n</span><span class="p">);</span> <span class="c1">// 힙 크기를 하나 증가시킨다.</span>
+    
+    <span class="k">while</span><span class="p">((</span><span class="n">i</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">item</span> <span class="o">&gt;</span> <span class="n">heap</span><span class="p">[</span><span class="n">i</span><span class="o">/</span><span class="mi">2</span><span class="p">]))</span>
+    <span class="p">{</span>
+        <span class="n">heap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">heap</span><span class="p">[</span><span class="n">i</span><span class="o">/</span><span class="mi">2</span><span class="p">];</span>
+        <span class="n">i</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="c1">//크기를 비교하면서 부모 레벨과 교환하면서 올라간다.</span>
+    <span class="p">}</span>
+    <span class="n">heap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span><span class="p">;</span>
+    <span class="c1">//새로운 노드를 삽입한다.</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210513234756292.png" alt="image-20210513234756292" /></p>
+
+<ul>
+  <li>Deletion
+    <ul>
+      <li>max heap 기준 부모부터 시작해서 자식 중 큰 수를 스왑하면서 위로 올린다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">pop</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">parent</span><span class="p">,</span> <span class="n">child</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">item</span><span class="p">,</span> <span class="n">temp</span><span class="p">;</span>
+    
+    <span class="k">if</span><span class="p">(</span><span class="n">HEAP_EMPTY</span><span class="p">(</span><span class="o">*</span><span class="n">n</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="n">exit</span><span class="p">();</span>
+	<span class="p">}</span>
+    
+    <span class="n">item</span> <span class="o">=</span> <span class="n">heap</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span> <span class="c1">//반환할 아이템을 저장</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">heap</span><span class="p">[(</span><span class="o">*</span><span class="n">n</span><span class="p">)</span><span class="o">--</span><span class="p">];</span> <span class="c1">//마지막 노드를 이용</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">child</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    
+    <span class="k">while</span><span class="p">(</span><span class="n">child</span> <span class="o">&lt;=</span> <span class="o">*</span><span class="n">n</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">((</span><span class="n">child</span><span class="o">&lt;*</span><span class="n">n</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">heap</span><span class="p">[</span><span class="n">child</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">heap</span><span class="p">[</span><span class="n">child</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">child</span><span class="o">++</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">temp</span> <span class="o">&gt;=</span> <span class="n">heap</span><span class="p">[</span><span class="n">child</span><span class="p">])</span> <span class="k">break</span><span class="p">;</span>
+        
+        <span class="n">heap</span><span class="p">[</span><span class="n">parent</span><span class="p">]</span> <span class="o">=</span> <span class="n">heap</span><span class="p">[</span><span class="n">child</span><span class="p">];</span>
+        <span class="n">parent</span> <span class="o">=</span> <span class="n">child</span><span class="p">;</span>
+        <span class="n">child</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">;</span>
+	<span class="p">}</span>
+    <span class="n">heap</span><span class="p">[</span><span class="n">parent</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">item</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h1 id="2-binary-search-tree">2. Binary Search Tree</h1>
+
+<p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210514002256746.png" alt="image-20210514002256746" /></p>
+
+<ul>
+  <li>
+    <p>같은 키가  와서는 안된다.(왼쪽 키는 자기 부모보다 작고 오른쪽은 항상 커야한다)</p>
+  </li>
+  <li>
+    <p>평균적으로 O(h)의 시간복잡도를 지니고, 최악의 경우 O(n)의 검색 시간복잡도를 지닌다.</p>
+  </li>
+  <li>
+    <p>검색</p>
+  </li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="o">*</span><span class="nf">iterSearch</span><span class="p">(</span><span class="n">treePointer</span> <span class="n">tree</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">k</span><span class="o">==</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">)</span> <span class="k">return</span> <span class="o">&amp;</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">)</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">left_child</span><span class="p">;</span>
+        <span class="k">else</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">right_child</span><span class="p">;</span>
+	<span class="p">}</span>
+    <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>삽입(O(h))</p>
+
+    <ul>
+      <li>그냥 끝까지 비교해서 밑에다가 매달면 끝난다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210514003649496.png" alt="image-20210514003649496" /></p>
+  </li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">insert</span><span class="p">(</span><span class="n">treePointer</span> <span class="o">*</span><span class="n">node</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">,</span> <span class="kt">int</span> <span class="n">num</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">treePointer</span> <span class="n">ptr</span><span class="p">,</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">search2</span><span class="p">(</span><span class="o">*</span><span class="n">node</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
+    <span class="c1">//트리가 empty나 key가 존재하면 NULL을 반환하고, 검색 중 마지막으로 마주한 노드를 반환하는 함수.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">temp</span> <span class="o">||</span> <span class="o">!</span><span class="p">(</span><span class="o">*</span><span class="n">node</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="n">ptr</span> <span class="o">=</span> <span class="p">(</span><span class="n">treePointer</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">ptr</span><span class="p">));</span>
+        <span class="n">ptr</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">=</span> <span class="n">k</span><span class="p">;</span>
+        <span class="n">ptr</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">=</span> <span class="n">num</span><span class="p">;</span>
+        <span class="n">ptr</span><span class="o">-&gt;</span><span class="n">left_child</span> <span class="o">=</span> <span class="n">ptr</span><span class="o">-&gt;</span><span class="n">right_child</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">*</span><span class="n">node</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">temp</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">)</span> <span class="n">temp</span><span class="o">-&gt;</span><span class="n">left_child</span> <span class="o">=</span> <span class="n">ptr</span><span class="p">;</span>
+            <span class="k">else</span> <span class="n">temp</span><span class="o">-&gt;</span><span class="n">right_child</span> <span class="o">=</span> <span class="n">ptr</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="n">ptr</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>삭제</p>
+
+    <ul>
+      <li>
+        <p>자식 노드가 없음: 삭제하고 끝.</p>
+      </li>
+      <li>
+        <p>자식 노드가 1개인 경우: 그냥 올리면 끝난다.</p>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210514004103386.png" alt="image-20210514004103386" /></p>
+
+    <ul>
+      <li>자식 노드가 2개인 경우:  왼쪽의 가장 큰 노드를 끌고온다. 혹은 오른쪽의 가장 작은 노드를 끌고 온다.</li>
+    </ul>
+
+    <p>(?): 아래 그림에서 19를 가져오면 18이 올라와야하는데, 다행히 두 자식을 가지는 노드는 절대로 선택될 수 없다. 그래서 부모가 선택되면 자식은 그냥 한단계 올려주면 될 것 같다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210514004345171.png" alt="image-20210514004345171" /></p>
+  </li>
+  <li>
+    <p>시간 복잡도:</p>
+    <ul>
+      <li>평균: O(logn) &lt;-&gt; 최악의 경우 O(n)</li>
+    </ul>
+  </li>
+</ul>
+:ET

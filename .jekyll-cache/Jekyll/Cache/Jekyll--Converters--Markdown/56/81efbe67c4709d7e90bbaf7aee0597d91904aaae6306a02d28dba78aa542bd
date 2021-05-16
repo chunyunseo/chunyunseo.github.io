@@ -1,0 +1,67 @@
+I"�<h1 id="1-정의-및-생성">1. 정의 및 생성</h1>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_list_node</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">data</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">_list_node</span> <span class="o">*</span><span class="n">link</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">list_node</span><span class="p">;</span>
+<span class="c1">//struct list_node *link로 선언시 컴파일 에러가 남.</span>
+
+<span class="n">list_node</span><span class="o">*</span> <span class="nf">create</span><span class="p">(</span><span class="kt">int</span> <span class="n">data</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">list_node</span><span class="o">*</span> <span class="n">first</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">first</span> <span class="o">=</span> <span class="p">(</span><span class="n">list_node</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">list_node</span><span class="p">));</span>
+	<span class="n">first</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">;</span>
+	<span class="n">first</span><span class="o">-&gt;</span><span class="n">link</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">first</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">// first ----&gt; |data|link|</span>
+
+</code></pre></div></div>
+
+<h1 id="2-앞부분-삽입삭제">2. 앞부분 삽입/삭제</h1>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">list_node</span><span class="o">*</span> <span class="nf">front_insert</span><span class="p">(</span><span class="kt">int</span> <span class="n">data</span><span class="p">,</span> <span class="n">list_node</span><span class="o">*</span> <span class="n">first</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">list_node</span> <span class="o">*</span><span class="n">second</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">second</span> <span class="o">=</span> <span class="p">(</span><span class="n">list_node</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">list_node</span><span class="p">));</span>
+	<span class="n">second</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">;</span>
+	<span class="n">second</span><span class="o">-&gt;</span><span class="n">link</span> <span class="o">=</span> <span class="n">first</span><span class="p">;</span>
+	<span class="n">first</span> <span class="o">=</span> <span class="n">second</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">first</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">//first ---&gt; |Node1|NULL|  &lt;----  |Node2|Node1|</span>
+<span class="c1">//first ----&gt; |Node2|Node1| ----&gt; |Node1|NULL|</span>
+
+
+<span class="n">list_node</span><span class="o">*</span> <span class="nf">front_delete</span><span class="p">(</span><span class="n">list_node</span><span class="o">*</span> <span class="n">first</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">list_node</span><span class="o">*</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">first</span><span class="p">;</span>
+	<span class="n">first</span> <span class="o">=</span> <span class="n">first</span><span class="o">-&gt;</span><span class="n">link</span><span class="p">;</span>
+	<span class="n">free</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">first</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">//temp ---&gt; |Node1|Node2| ----&gt; |Node2|NULL|</span>
+<span class="c1">//first ----&gt; |Node2|NULL|</span>
+
+</code></pre></div></div>
+
+<h1 id="3-순회-출력">3. 순회 출력</h1>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">print_list</span><span class="p">(</span><span class="n">list_node</span><span class="o">*</span> <span class="n">first</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">for</span> <span class="p">(;</span> <span class="n">first</span><span class="p">;</span> <span class="n">first</span> <span class="o">=</span> <span class="n">first</span><span class="o">-&gt;</span><span class="n">link</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"data: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">first</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h1 id="4-doubly-linked-circular-listdlcl">4. Doubly Linked Circular List(DLCL)</h1>
+
+<p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210513170231863.png" alt="image-20210513170231863" /></p>
+
+<ul>
+  <li>링크가 양옆으로 있는 형태.</li>
+</ul>
+
+:ET

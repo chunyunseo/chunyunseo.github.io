@@ -1,0 +1,121 @@
+I"�!<h1 id="1-thread">1. Thread</h1>
+
+<p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210506011943006.png" alt="image-20210506011943006" /></p>
+
+<ul>
+  <li>Thread
+    <ul>
+      <li>자바의 스레드는 native OS에서 관리된다.</li>
+      <li>new로 생성하면 runnable 상태로 들어간다.</li>
+      <li>wating은 notify 등으로 깰 수 있다.</li>
+    </ul>
+  </li>
+  <li>Runnable</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//간단한 Runnable 활용 예제</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">A</span> <span class="kd">implements</span> <span class="nc">Runnable</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="n">count</span><span class="o">++;</span>
+	
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+		<span class="c1">// TODO Auto-generated method stub</span>
+		<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+		<span class="o">{</span>
+			<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+			<span class="nc">Thread</span><span class="o">.</span><span class="na">yield</span><span class="o">();</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+	
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//new Thread를 사용하는 경우.</span>
+<span class="c1">//서로 다른 작업을 병렬로 진행할 때 사용.</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Hello</span> <span class="o">{</span>	
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">new</span> <span class="nf">Thread</span><span class="o">(</span><span class="k">new</span> <span class="no">A</span><span class="o">()).</span><span class="na">start</span><span class="o">();</span>
+		<span class="k">new</span> <span class="nf">Thread</span><span class="o">(</span><span class="k">new</span> <span class="no">A</span><span class="o">()).</span><span class="na">start</span><span class="o">();</span>
+        <span class="c1">//0과 1이 뒤섞여서 출력된다.</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//메인에서 Executor를 사용하는 경우. 라이프 사이클을 관리해줌.</span>
+<span class="c1">//같은 작업에 여러 Thread를 사용하는 경우 유리하다.</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Hello</span> <span class="o">{</span>	
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="nc">ExecutorService</span> <span class="n">exec</span> <span class="o">=</span> <span class="nc">Executors</span><span class="o">.</span><span class="na">newCachedThreadPool</span><span class="o">();</span>
+		
+		<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+		<span class="o">{</span>
+			<span class="n">exec</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="k">new</span> <span class="no">A</span><span class="o">());</span>
+		<span class="o">}</span>
+		<span class="n">exec</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span> <span class="c1">//모든 작업을 처리한 뒤 종료</span>
+        <span class="c1">//shutdownNow()로 강제 명시적 중단 가능.</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Thread Class Method
+    <ul>
+      <li>yield: 현재 실행중인 Thread 객체를 잠시 중단.</li>
+      <li>sleep: 현재 실행중인 Thread를 수면 상태로 변경.</li>
+      <li>join: 다른 Thread가 종료되는것을 기다렸다가 이어서 동작.(A에서 B.join()을 사용하면 B가 종료될 때 waiting state로 진입한다.)</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="2-synchronization">2. Synchronization</h1>
+
+<ul>
+  <li>Synchronized Method</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">critical</span><span class="o">(){</span>
+	<span class="c1">//단 하나의 스레드 밖에 들어갈 수 없음.</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Synchronized Object</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">foo</span><span class="o">(){</span>
+	<span class="kd">synchronized</span><span class="o">(</span><span class="k">this</span><span class="o">){</span>
+        <span class="c1">//특정 객체에 걸 수 있음.</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Wait/notify 활용예</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+		<span class="c1">// TODO Auto-generated method stub</span>
+		<span class="k">try</span> <span class="o">{</span>
+			<span class="k">while</span><span class="o">(!</span><span class="nc">Thread</span><span class="o">.</span><span class="na">interrupted</span><span class="o">())</span> <span class="o">{</span>
+				<span class="kd">synchronized</span><span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+					<span class="k">while</span><span class="o">(</span><span class="n">someValue</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+						<span class="n">wait</span><span class="o">();</span>
+					<span class="o">}</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+			<span class="n">someValue</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+			<span class="kd">synchronized</span><span class="o">(</span><span class="no">B</span><span class="o">.</span><span class="na">someObject</span><span class="o">)</span> <span class="o">{</span>
+                <span class="o">...</span>
+                <span class="no">B</span><span class="o">.</span><span class="na">someObject</span><span class="o">.</span><span class="na">notifyAll</span><span class="o">();</span>
+            <span class="o">}</span>
+		<span class="o">}</span> <span class="k">catch</span><span class="o">(</span><span class="nc">InterupptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="o">...</span>
+        <span class="o">}</span>
+	<span class="o">}</span>
+</code></pre></div></div>
+
+:ET

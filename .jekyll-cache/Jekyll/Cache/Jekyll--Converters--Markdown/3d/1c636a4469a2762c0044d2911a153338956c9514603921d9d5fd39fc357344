@@ -1,0 +1,64 @@
+I"�<h1 id="1-알고리즘이란">1. 알고리즘이란</h1>
+
+<ul>
+  <li>유한한 스탭을 지니고, Input과 Output이 존재하고, 모호하지 않고 정확하며, 효과적인 것.</li>
+</ul>
+
+<h1 id="2-재귀">2. 재귀</h1>
+
+<ul>
+  <li>재귀에는 terminate condition이 필요하다.</li>
+</ul>
+
+<hr />
+
+<ul>
+  <li>
+    <p>Hanoi Tower</p>
+
+    <ol>
+      <li>
+        <p>n-1개의 원반을 A에서 C를 경유지 삼아서 B로 옮긴다.</p>
+      </li>
+      <li>n번 째 원반을 목적지로 옮긴다.</li>
+      <li>B에 있는 n-1개의 원반을 A를 경유지 삼아서 C로 옮긴다.</li>
+    </ol>
+  </li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">hanoi</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">char</span> <span class="n">src</span><span class="p">,</span> <span class="kt">char</span> <span class="n">aux</span><span class="p">,</span> <span class="kt">char</span> <span class="n">dest</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%d번째 원반을 %c에서 %c로 이동</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">);</span>
+	<span class="k">else</span>
+	<span class="p">{</span>
+		<span class="n">hanoi</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">aux</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%d번째 원반을 %c에서 %c로 이동</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">);</span>
+		<span class="n">hanoi</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">aux</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">hanoi</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="sc">'A'</span><span class="p">,</span> <span class="sc">'B'</span><span class="p">,</span> <span class="sc">'C'</span><span class="p">);</span>
+	<span class="n">system</span><span class="p">(</span><span class="s">"pause"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/chunyunseo/ImageRepo/image/img/image-20210511201002586.png" alt="image-20210511201002586" /></p>
+
+<hr />
+
+<ul>
+  <li>Fibonacci Series</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">n</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="k">return</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+:ET

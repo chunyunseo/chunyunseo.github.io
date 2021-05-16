@@ -1,0 +1,67 @@
+I"(<ul>
+  <li>
+    <p>부모는 superclass(C++에서는 base class)  자식은 subclass(C++에서는 derived class)라고 한다.</p>
+  </li>
+  <li>
+    <p>C++와 달리 Java는 다중상속이 불가능하다.</p>
+  </li>
+  <li>
+    <p>Java의 모든 class 상속 관계 위에는 Object가 존재한다.</p>
+  </li>
+  <li>
+    <p>Is-a 관계가 Inheritance에 속한다.(Has-a 는 Composition).</p>
+  </li>
+  <li>
+    <p>Overriding</p>
+    <ul>
+      <li>superclass의 method를 재정의하는 것을 말한다.</li>
+      <li>superclass에 존재하는 method와 동일한 signature를 가지고, return이 동일하거나 subclass 타입이어야 한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Animal</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
+	
+	<span class="kd">public</span> <span class="nf">Animal</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">int</span> <span class="n">age</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">age</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span> 
+	<span class="o">{</span>
+		<span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getInfo</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">return</span> <span class="s">"this is Animal Info"</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Eagle</span> <span class="kd">extends</span> <span class="nc">Animal</span><span class="o">{</span>
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">flyingSpeed</span><span class="o">;</span>
+	
+	<span class="kd">public</span> <span class="nf">Eagle</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">int</span> <span class="n">age</span><span class="o">,</span> <span class="kt">int</span> <span class="n">flyingSpeed</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kd">super</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">age</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">flyingSpeed</span> <span class="o">=</span> <span class="n">flyingSpeed</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="c1">//super가 존재하지 않으면 constructor를 부르기 전에 super를 수행함.</span>
+	<span class="c1">//(Default constructor)</span>
+	
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getInfo</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">return</span> <span class="nf">getName</span><span class="o">();</span>
+	<span class="o">}</span>
+	<span class="c1">//protected보다는</span>
+	<span class="c1">//상위 클래스의 멤버에 접근할 때, 가급적이면 getter나 setter를 쓰는 것을 권장</span>
+	
+<span class="o">}</span>
+</code></pre></div></div>
+
+:ET
